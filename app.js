@@ -1,60 +1,66 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+'use strict';
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
-var app = express();
+/*!
+ * nodejs-express-mongoose-demo
+ * Copyright(c) 2013 Madhusudhan Srinivasa <madhums8@gmail.com>
+ * MIT Licensed
+ */
+/**
+ * Module dependencies
+ */
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+var _fs = require('fs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+var _fs2 = _interopRequireDefault(_fs);
 
-app.use('/', routes);
-app.use('/users', users);
+var _express = require('express');
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+var _express2 = _interopRequireDefault(_express);
+
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
+var _passport = require('passport');
+
+var _passport2 = _interopRequireDefault(_passport);
+
+var _config = require('config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var app = _express2['default']();
+
+// Connect to mongodb
+var connect = function connect() {
+  var options = { server: { socketOptions: { keepAlive: 1 } } };
+  _mongoose2['default'].connect(_config2['default'].db, options);
+};
+connect();
+
+_mongoose2['default'].connection.on('error', console.log);
+_mongoose2['default'].connection.on('disconnected', connect);
+
+// Bootstrap models
+_fs2['default'].readdirSync(__dirname + '/app/models').forEach(function (file) {
+  if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
 });
 
-// error handlers
+// Bootstrap passport config
+require('./config/passport')(_passport2['default'], _config2['default']);
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
+// Bootstrap application settings
+require('./config/express')(app, _passport2['default']);
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+// Bootstrap routes
+require('./config/routes')(app, _passport2['default']);
 
+/**
+ * Expose
+ */
 
 module.exports = app;
+
+//# sourceMappingURL=app.js.map
