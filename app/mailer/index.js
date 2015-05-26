@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -16,7 +15,7 @@ var config = require('config');
  * @api public
  */
 
-Notifier.prototype.processTemplate = function (tplPath, locals) {
+Notifier.prototype.processTemplate = function(tplPath, locals) {
   var swig = require('swig');
   locals.filename = tplPath;
   return swig.renderFile(tplPath, locals);
@@ -36,7 +35,7 @@ module.exports = {
    * @api public
    */
 
-  comment: function (options, cb) {
+  comment: function(options, cb) {
     var article = options.article;
     var author = article.user;
     var user = options.currentUser;
@@ -54,17 +53,59 @@ module.exports = {
         article: article.name
       }
     };
-
     // for apple push notifications
     /*notifier.use({
-      APN: true
-      parseChannels: ['USER_' + author._id.toString()]
-    })*/
+     APN: true
+     parseChannels: ['USER_' + author._id.toString()]
+     })*/
 
     try {
       notifier.send('comment', obj, cb);
     } catch (err) {
       console.log(err);
     }
+
+  },
+
+  /**
+   * New Application notification
+   *
+   * @param {Object} options
+   * @param {Function} cb
+   * @api public
+   */
+  createApplication: function(options, cb) {
+    "use strict";
+    var application = options.application;
+    var user = options.currentUser;
+    var notifier = new Notifier(config.notifier);
+
+    var obj = {
+      to: user.email,
+      from: config.email.noreply.email,
+      subject: 'New application created',
+      alert: `${user.name} create a new application named ${application.name}`,
+      locals: {
+        to: user.name,
+        from: config.email.noreply.name,
+        body: application.name,
+        application: application.name
+      }
+    };
+    // for apple push notifications
+    /*notifier.use({
+     APN: true
+     parseChannels: ['USER_' + author._id.toString()]
+     })*/
+
+    try {
+      notifier.send('createApplication', obj, cb);
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
+
+
+
+

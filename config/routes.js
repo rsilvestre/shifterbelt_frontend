@@ -10,6 +10,7 @@ var users = require('users');
 var articles = require('articles');
 var comments = require('comments');
 var tags = require('tags');
+var applications = require('applications');
 var auth = require('./middlewares/authorization');
 
 /**
@@ -18,6 +19,7 @@ var auth = require('./middlewares/authorization');
 
 var articleAuth = [auth.requiresLogin, auth.article.hasAuthorization];
 var commentAuth = [auth.requiresLogin, auth.comment.hasAuthorization];
+var applicationAuth = [auth.requiresLogin, auth.application.hasAuthorization];
 
 /**
  * Expose routes
@@ -96,6 +98,16 @@ module.exports = function (app, passport) {
   app.get('/articles/:id/edit', articleAuth, articles.edit);
   app.put('/articles/:id', articleAuth, articles.update);
   app.delete('/articles/:id', articleAuth, articles.destroy);
+
+  // application routes
+  app.param('applicationId', applications.load);
+  app.get('/applications', auth.requiresLogin, applications.index);
+  app.get('/applications/new', auth.requiresLogin, applications.new);
+  app.post('/applications', auth.requiresLogin, applications.create);
+  app.get('/applications/:applicationId', applicationAuth, applications.show);
+  //app.get('/applications/:applicationId/edit', applicationAuth, applications.edit);
+  //app.put('/applications/:applicationId', applicationAuth, applications.update);
+  //app.delete('/applications/:applicationId', applicationAuth, applications.destroy);
 
   // home route
   app.get('/', articles.index);

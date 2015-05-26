@@ -52,6 +52,12 @@ module.exports = {
     clientID: process.env.GOOGLE_CLIENTID,
     clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: "http://" + baseUrl + "/auth/google/callback"
+  },
+  email: {
+    noreply: {
+      name: "Shifterbelt.com",
+      email: "noreply@shifterbelt.com"
+    }
   }
 };
 

@@ -15,7 +15,7 @@ let baseUrl = `localhost:3000`;
 if (fs.existsSync(envFile)) {
   env = fs.readFileSync(envFile, `utf-8`);
   env = JSON.parse(env);
-  Object.keys(env).forEach(function (key) {
+  Object.keys(env).forEach(function(key) {
     process.env[key] = env[key];
   });
 }
@@ -50,5 +50,11 @@ module.exports = {
     clientID: process.env.GOOGLE_CLIENTID,
     clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: `http://${baseUrl}/auth/google/callback`
+  },
+  email: {
+    noreply: {
+      name: "Shifterbelt.com",
+      email: "noreply@shifterbelt.com"
+    }
   }
 };

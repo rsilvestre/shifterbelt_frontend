@@ -31,7 +31,7 @@ var UserSchema = new Schema({
   github: {},
   google: {},
   linkedin: {},
-  applications: [{ applicationId: { type: mongoose.Schema.Types.ObjectId, ref: "Application" } }]
+  applications: [{ applicationId: { type: Schema.ObjectId, ref: "Application" } }]
 });
 
 /**
@@ -179,7 +179,7 @@ UserSchema.statics = {
    */
 
   load: function (options, cb) {
-    options.select = options.select || 'name username';
+    options.select = options.select || 'name username email';
     this.findOne(options.criteria)
       .select(options.select)
       .exec(cb);

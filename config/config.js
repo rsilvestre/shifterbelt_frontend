@@ -15,8 +15,9 @@ var notifier = {
   service: 'postmark',
   APN: false,
   email: true, // true
-  actions: ['comment'],
+  actions: ['comment', 'createApplication'],
   tplPath: path.normalize(__dirname + '/../app/mailer/templates'),
+  tplType: 'swig',
   key: 'POSTMARK_KEY'
 };
 

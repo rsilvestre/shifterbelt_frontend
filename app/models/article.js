@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -16,7 +15,7 @@ var Schema = mongoose.Schema;
  * Getters
  */
 
-var getTags = function (tags) {
+var getTags = function(tags) {
   return tags.join(',');
 };
 
@@ -24,7 +23,7 @@ var getTags = function (tags) {
  * Setters
  */
 
-var setTags = function (tags) {
+var setTags = function(tags) {
   return tags.split(',');
 };
 
@@ -33,20 +32,20 @@ var setTags = function (tags) {
  */
 
 var ArticleSchema = new Schema({
-  title: {type : String, default : '', trim : true},
-  body: {type : String, default : '', trim : true},
-  user: {type : Schema.ObjectId, ref : 'User'},
+  title: { type: String, default: '', trim: true },
+  body: { type: String, default: '', trim: true },
+  user: { type: Schema.ObjectId, ref: 'User' },
   comments: [{
-    body: { type : String, default : '' },
-    user: { type : Schema.ObjectId, ref : 'User' },
-    createdAt: { type : Date, default : Date.now }
+    body: { type: String, default: '' },
+    user: { type: Schema.ObjectId, ref: 'User' },
+    createdAt: { type: Date, default: Date.now }
   }],
-  tags: {type: [], get: getTags, set: setTags},
+  tags: { type: [], get: getTags, set: setTags },
   image: {
     cdnUri: String,
     files: []
   },
-  createdAt  : {type : Date, default : Date.now}
+  createdAt: { type: Date, default: Date.now }
 });
 
 /**
@@ -60,15 +59,15 @@ ArticleSchema.path('body').required(true, 'Article body cannot be blank');
  * Pre-remove hook
  */
 
-ArticleSchema.pre('remove', function (next) {
+ArticleSchema.pre('remove', function(next) {
   var imager = new Imager(imagerConfig.variants.article, imagerConfig.storages.amazon);
   var files = this.image.files;
 
   // if there are files associated with the item, remove from the cloud too
-  imager.remove(files, function (err) {
+  imager.remove(files, function(err) {
     if (err) {
-    	return next(err);
-	}
+      return next(err);
+    }
   }, 'article');
 
   next();
@@ -88,24 +87,24 @@ ArticleSchema.methods = {
    * @api private
    */
 
-  uploadAndSave: function (images, cb) {
+  uploadAndSave: function(images, cb) {
     if (!images || !images.length) {
-    	return this.save(cb);
-	}
+      return this.save(cb);
+    }
 
     var imager = new Imager(imagerConfig.variants.article, imagerConfig.storages.amazon);
     var self = this;
 
-    this.validate(function (err) {
+    this.validate(function(err) {
       if (err) {
-      	  return cb(err);
-	  }
-      imager.upload(images, function (err, cdnUri, files) {
+        return cb(err);
+      }
+      imager.upload(images, function(err, cdnUri, files) {
         if (err) {
-        	return cb(err);
-		}
+          return cb(err);
+        }
         if (files.length) {
-          self.image = { cdnUri : cdnUri, files : files };
+          self.image = { cdnUri: cdnUri, files: files };
         }
         self.save(cb);
       }, 'article');
@@ -121,7 +120,7 @@ ArticleSchema.methods = {
    * @api private
    */
 
-  addComment: function (user, comment, cb) {
+  addComment: function(user, comment, cb) {
     var notify = require('../mailer');
 
     this.comments.push({
@@ -130,8 +129,8 @@ ArticleSchema.methods = {
     });
 
     if (!this.user.email) {
-    	this.user.email = 'email@product.com';
-	}
+      this.user.email = 'email@product.com';
+    }
     notify.comment({
       article: this,
       currentUser: user,
@@ -149,13 +148,13 @@ ArticleSchema.methods = {
    * @api private
    */
 
-  removeComment: function (commentId, cb) {
+  removeComment: function(commentId, cb) {
     var index = utils.indexof(this.comments, { id: commentId });
     if (~index) {
-    	this.comments.splice(index, 1);
-	} else {
-    	return cb('not found');
-	}
+      this.comments.splice(index, 1);
+    } else {
+      return cb('not found');
+    }
 
     this.save(cb);
   }
@@ -175,8 +174,8 @@ ArticleSchema.statics = {
    * @api private
    */
 
-  load: function (id, cb) {
-    this.findOne({ _id : id })
+  load: function(id, cb) {
+    this.findOne({ _id: id })
       .populate('user', 'name email username')
       .populate('comments.user')
       .exec(cb);
@@ -190,12 +189,12 @@ ArticleSchema.statics = {
    * @api private
    */
 
-  list: function (options, cb) {
+  list: function(options, cb) {
     var criteria = options.criteria || {};
 
     this.find(criteria)
       .populate('user', 'name username')
-      .sort({'createdAt': -1}) // sort by date
+      .sort({ 'createdAt': -1 }) // sort by date
       .limit(options.perPage)
       .skip(options.perPage * options.page)
       .exec(cb);
