@@ -1,12 +1,10 @@
-"use strict";
-
-var _interopRequireDefault = function(obj) {
-  return obj && obj.__esModule ? obj : { "default": obj };
-};
-
 /**
  * Created by michaelsilvestre on 29/04/15
  */
+
+"use strict";
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _config = require("config");
 
@@ -24,12 +22,16 @@ var Application = _mongoose2["default"].model("Application");
  * Load
  */
 
-exports.load = function(req, res, next, id) {
+exports.load = function (req, res, next, id) {
   var User = _mongoose2["default"].model("User");
 
-  Application.load(id, req.user, function(err, application) {
-    if (err) return next(err);
-    if (!application) return next(new Error("not found"));
+  Application.load(id, req.user, function (err, application) {
+    if (err) {
+      return next(err);
+    }
+    if (!application) {
+      return next(new Error("not found"));
+    }
     req.application = application;
     next();
   });
@@ -39,12 +41,12 @@ exports.load = function(req, res, next, id) {
  * List
  */
 
-exports.index = function(req, res) {
-  Application.list({ criteria: { "users.user": req.user._id } }, function(err, applications) {
+exports.index = function (req, res) {
+  Application.list({ criteria: { "users._id": req.user._id } }, function (err, applications) {
     if (err) return next(err);
-    Application.count().exec(function(err, count) {
+    Application.count().exec(function (err, count) {
       res.render("applications/index", {
-        title: "Applications",
+        title: "Your Applications",
         applications: applications,
         count: count
       });
@@ -56,7 +58,7 @@ exports.index = function(req, res) {
  * New
  */
 
-exports["new"] = function(req, res) {
+exports["new"] = function (req, res) {
   res.render("applications/new", {
     title: "New application",
     application: new Application({})
@@ -67,9 +69,9 @@ exports["new"] = function(req, res) {
  * Create an application
  */
 
-exports.create = function(req, res) {
+exports.create = function (req, res) {
   var application = new Application(req.body);
-  application.addUser(req.user, "owner", function(err) {
+  application.addUser(req.user, "owner", function (err) {
     if (!err) {
       req.flash("success", "Successfully created application!");
       return res.redirect("/applications/" + application._id);
@@ -87,7 +89,18 @@ exports.create = function(req, res) {
  * Show
  */
 
-exports.show = function(req, res) {
+exports.show = function (req, res) {
+  res.render("applications/show", {
+    title: req.application.name,
+    application: req.application
+  });
+};
+
+/**
+ * Stats
+ */
+
+exports.stats = function (req, res) {
   res.render("applications/show", {
     title: req.application.name,
     application: req.application

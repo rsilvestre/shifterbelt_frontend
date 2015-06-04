@@ -1,15 +1,23 @@
 {# Created by michaelsilvestre on 29/04/15. #}
 {% extends '../layouts/default.swig' %}
 
+{% block gohead %}
+  <link rel="stylesheet" href="/stylesheets/application.css">
+{% endblock %}
+
 {% block main %}
-  <h1>{{ name }}</h1>
+  <h1>{{ title }}</h1>
 {% endblock %}
 
 {% block content %}
   {% if (applications.length) %}
+    <ul class="content-application-container">
     {% for application in applications %}
-      {% include 'application.swig' %}
+      <li class="content-application-list">
+        {% include 'application.swig' %}
+      </li>
     {% endfor %}
+    </ul>
   {% else %}
     <h4 class="muted">
       No applications.&nbsp;

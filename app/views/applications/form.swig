@@ -1,6 +1,10 @@
 {# Created by michaelsilvestre on 29/04/15. #}
 {% extends '../layouts/default.swig' %}
 
+{% block gohead %}
+  <link rel="stylesheet" href="/stylesheets/application.css">
+{% endblock %}
+
 {% block main %}
   <h1>{{ name }}</h1>
   <hr>

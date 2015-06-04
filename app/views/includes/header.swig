@@ -7,14 +7,24 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">Shifterbelt</a>
+      <a href="/" class="navbar-brand">{{ pkg.name }}</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
         <li class="{% if (isActive('/articles/new')) %}active{% endif %}">
-          <a href="/articles/new" title="new article">New</a>
+          <a href="/applications/new" title="new application">New</a>
         </li>
+        {% if (req.isAuthenticated()) %}
+          <li class="{% if (isActive('/articles/new')) %}active{% endif %}">
+            <a href="/applications" title="applications">Applications</a>
+          </li>
+          <li class="{% if (isActive('/articles/new')) %}active{% endif %}">
+            <a href="/tariffs" title="tariffs">Tariffs</a>
+          </li>
+        {% endif %}
+      </ul>
 
+      <ul class="nav navbar-nav navbar-right">
         {% if (req.isAuthenticated()) %}
           <li class="{% if (isActive('/users/' + req.user.id )) %}active{% endif %}">
             <a href="{{ '/users/' + req.user.id }}" title="Profile">Profile</a>
@@ -26,9 +36,12 @@
           <li class="{% if (isActive('/login')) %}active{% endif %}">
             <a href="/login" title="Login">Login</a>
           </li>
+          <li class="{% if (isActive('/signup')) %}active{% endif %}">
+            <a href="/signup" title="Signup">Signup</a>
+          </li>
         {% endif %}
       </ul>
-
+      {#
       <ul class="nav navbar-nav navbar-right">
         <li>
           <a href="https://www.gratipay.com/madhums/"><img src="https://img.shields.io/gratipay/madhums.svg?style=flat" alt="Gittip" data-canonical-src="https://img.shields.io/gratipay/madhums.svg?style=flat" style="max-width:100%;"></a>
@@ -43,6 +56,7 @@
           <a href="https://travis-ci.org/madhums/node-express-mongoose-demo"><img src="https://img.shields.io/travis/madhums/node-express-mongoose-demo.svg?style=flat" alt="Build Status" data-canonical-src="https://img.shields.io/travis/madhums/node-express-mongoose-demo.svg?style=flat" style="max-width:100%;"></a>
         </li>
       </ul>
+      #}
     </div>
   </div>
 </nav>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head prefix="og: http://ogp.me/ns# shifterbelt: http://ogp.me/ns/apps/shifterbelt#">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -10,12 +10,12 @@
     <meta name="description" content="{{ pkg.description }}">
 
     {# Opengraph tags #}
-    <meta property="fb:app_id" content="1622734144627490">
-    <meta property="og:title" content=pkg.name + ' - ' + title>
-    <meta property="og:description" content=pkg.description>
-    <meta property="og:url" content="http://shifterbelt.herokuapp.com">
-    <meta property="og:site_name" content="Communication tool for devices">
-    <meta property="fb:admins" content="697667049">
+    <meta property="fb:app_id" content="{{ pkg.project.fb.appId }}">
+    <meta property="og:title" content="{{ pkg.name }} - {{ title }}">
+    <meta property="og:description" content="{{ pkg.description }}">
+    <meta property="og:url" content="{{ pkg.project.url }}">
+    <meta property="og:site_name" content="{{ pkg.project.content }}">
+    <meta property="fb:admins" content="{{ pkg.project.fb.admin }}">
 
     {% block head %}
       {# Styles #}

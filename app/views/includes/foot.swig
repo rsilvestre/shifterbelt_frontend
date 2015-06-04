@@ -1,12 +1,8 @@
-<script src='http://code.jquery.com/jquery-1.10.2.min.js'></script>
-<script src='//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js'></script>
-<script src='/js/jquery.tagsinput.min.js'></script>
-<script src='/js/app.js'></script>
-<script type="text/javascript" src="/javascripts/lib/require.js" data-main="/javascripts/app"></script>
+<script data-main="/javascripts/app" src="/javascripts/lib/require.js"></script>
 <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '1622734144627490',
+      appId      : '{{ pkg.project.fb.appId }}',
       xfbml      : true,
       version    : 'v2.3'
     });
@@ -22,7 +18,7 @@
 </script>
 <script>
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-']);
+  _gaq.push(['_setAccount', 'UA-{{ pkg.project.google.analytics }}']);
   _gaq.push(['_trackPageview']);
 
   (function() {

@@ -15,11 +15,17 @@ token.defaults.timeStep = 24 * 60 * 60; // 24h in seconds
 var Schema = mongoose.Schema;
 
 var makeSalt = function() {
+  "use strict";
+
   return Math.round((new Date().valueOf() * Math.random())) + '';
 };
 
 var encryptPassword = function(password) {
-  if (!password) return '';
+  "use strict";
+
+  if (!password) {
+    return '';
+  }
   try {
     return crypto
       .createHmac('sha1', this.salt)
@@ -43,7 +49,9 @@ var Generator = function(preSave) {
     Application.find({ 'businessId': businessId })
       .select('businessId')
       .exec(function(err, result) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         if (result.length > 0) {
           return generate(cb);
@@ -61,13 +69,13 @@ var Generator = function(preSave) {
         role: type,
         key: crypto.createHmac('sha1', Math.random().toString()).update((new Date()).valueOf().toString()).digest('hex').substring(0, 40),
         passwd: token.generate((new Date()).valueOf().toString() + '|' + Math.random().toString()).substring(0, 80)
-      }
+      };
     };
     preSave.keys.push(new keyGen("master"));
     preSave.keys.push(new keyGen("manager"));
     preSave.keys.push(new keyGen("slave"));
     cb();
-  }
+  };
 
 };
 /**
@@ -100,14 +108,17 @@ var ApplicationSchema = new Schema({
   businessId: { type: String, index: true, unique: true },
   strategy: { type: String, required: 'The strategy has not been defined', enum: ['direct', 'work'] },
   users: [{
-    user: { type: Schema.ObjectId, ref: 'User', required: true },
-    role: { type: String, required: true, enum: ["owner", "manager", "invited"] }
+    _id: { type: Schema.ObjectId, ref: 'User', required: true },
+    role: { type: String, required: true, enum: ["owner", "manager", "invited"] },
+    createdAt: { type: Date, default: Date.now }
   }],
   createdAt: { type: Date, default: Date.now },
   keys: [{
     role: { type: String, required: true, enum: ["master", "manager", "slave"] },
     key: { type: String, required: true },
-    passwd: { type: String, required: true }
+    passwd: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now },
+    status: { type: String, default: 'active', enum: ['active', 'inactive', 'revoked'] }
   }]
 });
 
@@ -150,7 +161,7 @@ ApplicationSchema.methods = {
     "use strict";
     var notify = require('../mailer');
     this.users.push({
-      user: user._id,
+      _id: user._id,
       role: role
     });
 
@@ -205,7 +216,7 @@ ApplicationSchema.statics = {
   load: function(id, user, cb) {
     "use strict";
     this.findOne({ businessId: id })
-      .populate('users.user', 'name email username')
+      .populate('users._id', 'name email username')
       .exec(cb);
   },
 
@@ -215,7 +226,7 @@ ApplicationSchema.statics = {
     var criteria = options.criteria || {};
 
     this.find(criteria)
-      .populate('users.user', 'name email username')
+      .populate('users._id', 'name email username')
       .exec(cb);
   },
 
@@ -228,8 +239,8 @@ ApplicationSchema.statics = {
    */
   selectByBusinessId: function(businessId, cb) {
     "use strict";
-    this.findOne({ businessId: businessId })
-      .populate('users.user', 'name email username')
+    this.findOne({ businessId: businessId,  })
+      .populate('users._id', 'name email username')
       .select('name')
       .exec(cb);
   }

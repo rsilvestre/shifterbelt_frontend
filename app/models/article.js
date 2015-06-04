@@ -143,7 +143,7 @@ ArticleSchema.methods = {
   /**
    * Remove comment
    *
-   * @param {commentId} String
+   * @param {String} commentId
    * @param {Function} cb
    * @api private
    */

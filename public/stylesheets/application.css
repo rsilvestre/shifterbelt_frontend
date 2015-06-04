@@ -1,0 +1,172 @@
+/* @override http://localhost:3000/stylesheets/application.css */
+
+/* @group applicationS */
+
+span.application-info-id, span.application-info-key {
+  display: block;
+}
+
+div.application-info {
+  padding-left: 10px;
+  padding-top: 10px;
+  margin-left: 20px;
+  padding-bottom: 10px;
+  border-left: 1px solid silver;
+}
+
+span.application-info-title {
+  display: block;
+}
+
+span.application-info-title-name {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+span.application-info-title-stats {
+  font-size: 12px;
+  margin-left: 5px;
+  font-style: italic;
+}
+
+ul.content-application-container {
+  padding-left: 16px;
+}
+
+li.content-application-list {
+  list-style-type: none;
+  
+}
+
+li.content-application-list:before {
+  content: "•";
+  padding-right: 10px;
+  font-size: 140%;
+  padding-top: 36px;
+  position: absolute;
+  float: left;
+}
+
+/* @end */
+
+/* @group application show */
+
+div.application-main-title {
+  font-size: 24px;
+  border-bottom: 1px solid silver;
+  margin-bottom: 16px;
+}
+
+div.application-main-subtitle {
+  font-weight: bold;
+}
+
+div.snippet-container {
+  padding-bottom: 16px;
+}
+
+p.application-main-text {
+  padding-bottom: 16px;
+}
+
+span.main-application-name {
+  font-weight: bold;
+  font-size: 24px;
+  display: block;
+}
+
+li.content-application-container-element {
+  list-style-type: none;
+  padding-bottom: 10px;
+}
+
+div.content-application-container-block {
+  padding-left: 10px;
+  border-left: 1px solid silver;
+}
+
+span.main-application-id-value {
+  font-weight: bold;
+}
+
+span.main-application-id-key {
+  font-size: 16px;
+  margin-right: 12px;
+}
+
+span.main-application-id {
+  display: block;
+  font-size: 14px;
+}
+
+span.content-application-role, span.content-application-key, span.content-application-passwd {
+  display: block;
+  width: 200px;
+}
+
+span.content-application-role-value {
+  font-weight: bold;
+}
+
+pre.content-application-role, pre.content-application-key, pre.content-application-passwd {
+  width: 200px;
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;
+}
+
+/* @end */
+
+/* @group code syntax highlight */
+
+.code-js {
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;
+}
+
+.syntaxhighlighter a,
+.syntaxhighlighter div,
+.syntaxhighlighter code,
+.syntaxhighlighter table,
+.syntaxhighlighter table td,
+.syntaxhighlighter table tr,
+.syntaxhighlighter table tbody,
+.syntaxhighlighter table thead,
+.syntaxhighlighter table caption,
+.syntaxhighlighter textarea {
+  -moz-border-radius: 0 0 0 0 !important;
+  -webkit-border-radius: 0 0 0 0 !important;
+  background: none !important;
+  border: 0 !important;
+  bottom: auto !important;
+  float: none !important;
+  height: auto !important;
+  left: auto !important;
+  line-height: 1.1em !important;
+  margin: 0 !important;
+  outline: 0 !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  position: static !important;
+  right: auto !important;
+  text-align: left !important;
+  top: auto !important;
+  vertical-align: baseline !important;
+  width: auto !important;
+  box-sizing: content-box !important;
+  font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  font-size: 1em !important;
+  min-height: inherit !important;
+  min-height: auto !important;
+}
+
+
+/* @end */
+

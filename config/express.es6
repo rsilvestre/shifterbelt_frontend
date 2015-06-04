@@ -16,6 +16,7 @@ import url from "url";
 import swig from "swig";
 import moment from 'moment';
 import extras from "swig-extras";
+import nsh from "node-syntaxhighlighter"
 
 import ua from 'universal-analytics';
 
@@ -48,162 +49,186 @@ let env = process.env.MODE_ENV || "development";
  */
 module.exports = function(app, passport) {
 
-    app.use(compression({
-        threshold: 512
-    }));
+  app.use(compression({
+    threshold: 512
+  }));
 
-    // Use winston on production
-    let log;
-    if (env !== 'development') {
-        log = {
-            stream: {
-                write: function (message, encoding) {
-                    winston.info(message);
-                }
-            }
-        };
-    } else {
-        log = 'dev';
-    }
-
-    var redisURL = url.parse(process.env.REDISCLOUD_URL || 'redis://localhost:6379');
-    var client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
-    if (redisURL.auth) {
-        client.auth(redisURL.auth.split(":")[1]);
-    }
-
-    // view engine setup
-    app.set('views', `${config.root}/app/views`);
-    app.engine('swig', swig.renderFile);
-    app.set('view engine', 'swig');
-
-    swig.setFilter('length', (input) => {
-        if (Object.prototype.toString.call(input) === '[object Array]') {
-            return input.length;
+  // Use winston on production
+  let log;
+  if (env !== 'development') {
+    log = {
+      stream: {
+        write: function(message, encoding) {
+          winston.info(message);
         }
-    });
+      }
+    };
+  } else {
+    log = 'dev';
+  }
 
-    swig.setFilter('moment', (input) => {
-        return moment(input).fromNow();
-    });
+  var redisURL = url.parse(process.env.REDISCLOUD_URL || 'redis://localhost:6379');
+  var client = redis.createClient(redisURL.port, redisURL.hostname, { no_ready_check: true });
+  if (redisURL.auth) {
+    client.auth(redisURL.auth.split(":")[1]);
+  }
 
-    extras.useFilter(swig, 'markdown');
+  // view engine setup
+  app.set('views', `${config.root}/app/views`);
+  app.engine('swig', swig.renderFile);
+  app.set('view engine', 'swig');
 
-    app.use(ua.middleware('UA-', { coockieName: '_ga' }));
-
-    // uncomment after placing your favicon in /public
-    //app.use(favicon(__dirname + '/public/favicon.ico'));
-    if (env !== 'test') {
-        app.use(morgan(log));
+  swig.setFilter('length', (input) => {
+    if (Object.prototype.toString.call(input) === '[object Array]') {
+      return input.length;
     }
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
-    app.use(express.static(`${config.root}/public`));
-    app.use(methodOverride("_method"));
+  });
 
-    app.use(session({
-        genid: function (req) {
-            return genUuid(); // use UUIDs for session IDs
-        },
-        secret: process.env.SESSION_SECRET || 'hello world',
-        name: "tiny_cookie",
-        store: sessionStore.createSessionStore(process.env.REDISCLOUD_URL ? { url: process.env.REDISCLOUD_URL } : {
-            type: 'redis',
-            host: 'localhost',         // optional
-            port: 6379,                // optional
-            prefix: 'sess',            // optional
-            ttl: 804600,               // optional
-            timeout: 10000             // optional
-        }),
-        resave: true,
-        saveUninitialized: true
-    }));
+  swig.setFilter('moment', (input) => {
+    return moment(input).fromNow();
+  });
 
-    app.use(multer({
-        dest: './uploads/',
-        rename: function (fieldname, filename) {
-            return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
-        },
-        limits: {
-            fieldNameSize: 50,
-            fieldSize: 4000000,
-            files: 2,
-            fields: 10
-        }
-    }));
+  swig.setFilter('lastPrice', (input) => {
+    return input.slice(-1)[0]['value'];
+  });
 
-    // use passport session
-    app.use(passport.initialize());
-    app.use(passport.session());
+  swig.setFilter('numberize', (input) => {
+    return ('' + input).split('').reverse().map(function(value, index) {
+      if ((index + 1) % 3 === 0) {
+        return ',' + value;
+      }
+      return value;
+    }).reverse().join('').replace(/^,/,'');
+  });
 
-    // connect flash for flash messages - shoud be declared after sessions
-    app.use(flash());
+  let sample = (input) => {
+    let language = nsh.getLanguage('js');
 
-    // should be declared after session ans flash
-    app.use(helpers(pkg.name));
+    return nsh.highlight(input.replace(/end/g, '\n').replace(/tabulation\:/g, '\t'), language, {
+      brush: "js",
+      gutter: false
+    });
+  };
+  sample.safe = true;
+  swig.setFilter('sample', sample);
 
-    // adds CSRF support
-    if (env !== 'test') {
-        app.use(csrf());
+  extras.useFilter(swig, 'markdown');
 
-        app.use((req, res, next) => {
-            res.locals.csrf_token = req.csrfToken();
-            next();
-        });
+  app.use(ua.middleware('UA-', { coockieName: '_ga' }));
+
+  // uncomment after placing your favicon in /public
+  //app.use(favicon(__dirname + '/public/favicon.ico'));
+  if (env !== 'test') {
+    app.use(morgan(log));
+  }
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(cookieParser());
+  app.use(express.static(`${config.root}/public`));
+  app.use(methodOverride("_method"));
+
+  app.use(session({
+    genid: function(req) {
+      return genUuid(); // use UUIDs for session IDs
+    },
+    secret: process.env.SESSION_SECRET || 'hello world',
+    name: "tiny_cookie",
+    store: sessionStore.createSessionStore(process.env.REDISCLOUD_URL ? { url: process.env.REDISCLOUD_URL } : {
+      type: 'redis',
+      host: 'localhost',         // optional
+      port: 6379,                // optional
+      prefix: 'sess',            // optional
+      ttl: 804600,               // optional
+      timeout: 10000             // optional
+    }),
+    resave: true,
+    saveUninitialized: true
+  }));
+
+  app.use(multer({
+    dest: './uploads/',
+    rename: function(fieldname, filename) {
+      return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
+    },
+    limits: {
+      fieldNameSize: 50,
+      fieldSize: 4000000,
+      files: 2,
+      fields: 10
     }
+  }));
+
+  // use passport session
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // connect flash for flash messages - shoud be declared after sessions
+  app.use(flash());
+
+  // should be declared after session ans flash
+  app.use(helpers(pkg.name));
+
+  // adds CSRF support
+  if (env !== 'test') {
+    app.use(csrf());
 
     app.use((req, res, next) => {
-        res.locals.pkg = pkg;
-        res.locals.env = env;
-        next();
+      res.locals.csrf_token = req.csrfToken();
+      next();
     });
+  }
 
-    app.use(function (req, res, next) {
-        req.visitor.pageview(req.originalUrl).send();
-        next();
-    });
+  app.use((req, res, next) => {
+    res.locals.pkg = pkg;
+    res.locals.env = env;
+    next();
+  });
 
-   /*
-    // catch 404 and forward to error handler
-    app.use(function (req, res, next) {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
-    });
-    */
-    // error handlers
+  app.use(function(req, res, next) {
+    req.visitor.pageview(req.originalUrl).send();
+    next();
+  });
 
-    // development error handler
-    // will print stacktrace
-    if (env === 'development' || env === 'test') {
-        app.set('view cache', false);
-        swig.setDefaults({ cache: false });
-        /*
-        app.use(function (err, req, res, next) {
+  /*
+   // catch 404 and forward to error handler
+   app.use(function (req, res, next) {
+   var err = new Error('Not Found');
+   err.status = 404;
+   next(err);
+   });
+   */
+  // error handlers
 
-            console.error(err.message);
-            console.error(err.stack);
-            res.status(err.status || 500);
-            res.render('error_template', {
-                title: 'Internal error',
-                message: err.message,
-                error: err
-            });
-        });
-        */
-    }
-
+  // development error handler
+  // will print stacktrace
+  if (env === 'development' || env === 'test') {
+    app.set('view cache', false);
+    swig.setDefaults({ cache: false });
     /*
-    // production error handler
-    // no stacktraces leaked to user
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: {}
-        });
-    });
-    */
+     app.use(function (err, req, res, next) {
+
+     console.error(err.message);
+     console.error(err.stack);
+     res.status(err.status || 500);
+     res.render('error_template', {
+     title: 'Internal error',
+     message: err.message,
+     error: err
+     });
+     });
+     */
+  }
+
+  /*
+   // production error handler
+   // no stacktraces leaked to user
+   app.use(function (err, req, res, next) {
+   res.status(err.status || 500);
+   res.render('error', {
+   message: err.message,
+   error: {}
+   });
+   });
+   */
 };
 

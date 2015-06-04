@@ -15,8 +15,12 @@ exports.load = (req, res, next, id) => {
   var User = mongoose.model('User');
 
   Application.load(id, req.user, (err, application) => {
-    if (err) return next(err);
-    if (!application) return next(new Error('not found'));
+    if (err) {
+      return next(err);
+    }
+    if (!application) {
+      return next(new Error('not found'));
+    }
     req.application = application;
     next();
   });
@@ -27,11 +31,11 @@ exports.load = (req, res, next, id) => {
  */
 
 exports.index = (req, res) => {
-  Application.list({ criteria: { "users.user": req.user._id } }, function(err, applications) {
+  Application.list({ criteria: { "users._id": req.user._id } }, function(err, applications) {
     if (err) return next(err);
     Application.count().exec(function(err, count) {
       res.render('applications/index', {
-        title: 'Applications',
+        title: 'Your Applications',
         applications: applications,
         count: count
       });
@@ -75,6 +79,17 @@ exports.create = (req, res) => {
  */
 
 exports.show = (req, res) => {
+  res.render('applications/show', {
+    title: req.application.name,
+    application: req.application
+  })
+};
+
+/**
+ * Stats
+ */
+
+exports.stats = (req, res) => {
   res.render('applications/show', {
     title: req.application.name,
     application: req.application

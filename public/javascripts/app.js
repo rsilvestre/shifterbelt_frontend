@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: '/javascripts',
+    baseUrl: '/javascripts/lib',
     paths: {
         // the left side is the module ID,
         // the right side is the path to
@@ -9,15 +9,17 @@ require.config({
         // is using jQuery 1.9.0 located at
         // js/lib/jquery-1.9.0.js, relative to
         // the HTML page.
-        jquery: 'lib/jquery-2.1.3',
-        jquery_tagsinput: 'lib/jquery.tagsinput.min',
-        bootstrap: 'lib/bootstrap.min',
-        moment: "lib/moment-with-locales.min",
-        app: 'app'
+        jquery: 'jquery-2.1.4.min',
+        jquery_tagsinput: 'jquery.tagsinput.min',
+        jquery_snippet: 'jquery.snippet',
+        bootstrap: 'bootstrap.min',
+        moment: "moment-with-locales.min",
+        app: '../app'
 
     },
     "shim": {
-        "jquery_tagsinput": { "deps": ["jquery"] },
+        "jquery_tagsinput": { "deps": ["jquery"], exports: "tagsinput" },
+        "jquery_snippet": { "deps": ["jquery"] },
         'bootstrap': { "deps": ["jquery"] }
     }
 });

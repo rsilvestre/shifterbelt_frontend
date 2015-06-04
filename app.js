@@ -1,6 +1,3 @@
-'use strict';
-
-var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
 
 /*!
  * nodejs-express-mongoose-demo
@@ -10,6 +7,10 @@ var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj
 /**
  * Module dependencies
  */
+
+'use strict';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _fs = require('fs');
 
@@ -31,7 +32,7 @@ var _config = require('config');
 
 var _config2 = _interopRequireDefault(_config);
 
-var app = _express2['default']();
+var app = (0, _express2['default'])();
 
 // Connect to mongodb
 var connect = function connect() {
@@ -45,7 +46,9 @@ _mongoose2['default'].connection.on('disconnected', connect);
 
 // Bootstrap models
 _fs2['default'].readdirSync(__dirname + '/app/models').forEach(function (file) {
-  if (~file.indexOf('.js')) require(__dirname + '/app/models/' + file);
+  if (/\.js$/.test(file)) {
+    require(__dirname + '/app/models/' + file);
+  }
 });
 
 // Bootstrap passport config

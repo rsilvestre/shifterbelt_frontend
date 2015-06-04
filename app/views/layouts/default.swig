@@ -1,5 +1,6 @@
   {% include '../includes/head.swig' %}
 
+  {% block head %}{% block gohead %}{% endblock %}{% endblock %}
   <body>
     {% include '../includes/header.swig' %}
     <div class="container">
@@ -15,5 +16,6 @@
     </div>
     {% include '../includes/footer.swig' %}
     {% include '../includes/foot.swig' %}
+    {% block foot %}{% block gofoot %}{% endblock %}{% endblock %}
   </body>
 </html>

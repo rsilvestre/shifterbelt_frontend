@@ -13,7 +13,9 @@ var utils = require('../../lib/utils');
 exports.load = function (req, res, next, id) {
   var article = req.article;
   utils.findByParam(article.comments, { id: id }, function (err, comment) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
     req.comment = comment;
     next();
   });

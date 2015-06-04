@@ -6,11 +6,13 @@
 // Note: We can require users, articles and other cotrollers because we have
 // set the NODE_PATH to be ./app/controllers (package.json # scripts # start)
 
+var homepage = require('homepage');
 var users = require('users');
 var articles = require('articles');
 var comments = require('comments');
 var tags = require('tags');
 var applications = require('applications');
+var tariff = require('tariffs');
 var auth = require('./middlewares/authorization');
 
 /**
@@ -104,13 +106,21 @@ module.exports = function (app, passport) {
   app.get('/applications', auth.requiresLogin, applications.index);
   app.get('/applications/new', auth.requiresLogin, applications.new);
   app.post('/applications', auth.requiresLogin, applications.create);
-  app.get('/applications/:applicationId', applicationAuth, applications.show);
+  app.get('/applications/:applicationId/show', applicationAuth, applications.show);
+  app.get('/applications/:applicationId/stats', applicationAuth, applications.stats);
   //app.get('/applications/:applicationId/edit', applicationAuth, applications.edit);
   //app.put('/applications/:applicationId', applicationAuth, applications.update);
   //app.delete('/applications/:applicationId', applicationAuth, applications.destroy);
 
+  // tariffs
+  app.param('tariffId', tariff.loadId);
+  app.param('tariffName', tariff.loadName);
+  app.get('/tariffs', auth.requiresLogin, tariff.index);
+  app.get('/tariffs/:tariffName/payment', auth.requiresLogin, tariff.payment);
+  app.post('/tariffs/:tariffName/create', auth.requiresLogin, tariff.create);
+
   // home route
-  app.get('/', articles.index);
+  app.get('/', homepage.index);
 
   // comment routes
   app.param('commentId', comments.load);

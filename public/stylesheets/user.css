@@ -1,0 +1,48 @@
+/* @override http://localhost:3000/stylesheets/user.css */
+
+#login_form {
+  /*background-color: red;*/
+  width: 400px;
+  margin: 0 auto;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #a2a2a2;
+  top: 100px;
+  position: relative;
+}
+
+div.login_or {
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  padding: 12px 0;
+  font-size: 18px;
+}
+
+div.login_form_title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 12px;
+}
+
+#login_form input {
+  margin-bottom: 5px;
+}
+
+a.login_form_login {
+  padding-left: 135px;
+}
+
+#login_form a img {
+  width: 74px;
+}
+
+input#password {
+  margin-bottom: 18px;
+}
+
+div.login_form_third {
+  margin-bottom: 5px;
+  padding: 1px 0;
+}

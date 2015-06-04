@@ -1,11 +1,30 @@
 {
-  "name": "frontend",
+  "name": "Shifterbelt",
+  "description": "This is a front-end of the project Shifterbelt",
+  "project": {
+    "url": "http://shifterbelt.herokuapp.com",
+    "content": "Communication tool for devices",
+    "fb": {
+      "appId": "1622734144627490",
+      "admin": "697667049"
+    },
+    "google": {
+      "analytics": ""
+    }
+  },
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "NODE_PATH=./config:./app/controllers NODE_ENV=development ./node_modules/bin/nodemon.js bin/www"
   },
+  "keywords": [
+    "communication",
+    "bidirectional",
+    "real time",
+    "webservice"
+  ],
   "dependencies": {
+    "async": "^1.2.0",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.12.3",
     "compression": "^1.4.3",
@@ -23,6 +42,7 @@
     "mongoose": "^4.0.2",
     "morgan": "~1.5.1",
     "multer": "^0.1.8",
+    "node-syntaxhighlighter": "^0.8.1",
     "nodemon": "^1.3.7",
     "notifier": "^0.1.7",
     "passport": "^0.2.1",
