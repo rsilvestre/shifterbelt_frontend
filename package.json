@@ -15,7 +15,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_PATH=./config:./app/controllers NODE_ENV=development ./node_modules/bin/nodemon.js bin/www"
+    "start": "NODE_PATH=./config:./app/controllers nodemon bin/www"
   },
   "keywords": [
     "communication",

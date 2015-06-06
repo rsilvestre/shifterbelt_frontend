@@ -239,6 +239,9 @@ UserSchema.statics = {
         if (err) {
           return cb(err, null);
         }
+        if (!data.hasOwnProperty('plans')) {
+          return cb(null, data);
+        }
         async.forEach(data.plans, function(plan, callback) {
           Tariff.populate(plan, { path: "tariffPlan" }, function(err, output) {
             if (err) {

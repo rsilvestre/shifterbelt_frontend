@@ -1,34 +1,13 @@
-
-/*!
- * Module dependencies.
- */
-
 "use strict";
 
-var fs = require("fs");
-var env = {};
-var envFile = "" + __dirname + "/env.json";
-
-var baseUrl = "localhost:3000";
-
-// Read env.json file, if it exists, load the id`s and secrets from that
-// Note that this is only in the development env
-// it is not safe to store id`s in files
-
-if (fs.existsSync(envFile)) {
-  env = fs.readFileSync(envFile, "utf-8");
-  env = JSON.parse(env);
-  Object.keys(env).forEach(function (key) {
-    process.env[key] = env[key];
-  });
-}
+var baseUrl = "www.shifterbelt.com:3000";
 
 /**
  * Expose
  */
 
 module.exports = {
-  db: "mongodb://heroku_app31319631:tc63mjpftbejo276tmucac7jea@ds051740.mongolab.com:51740/heroku_app31319631",
+  db: process.env.MONGOHQ_URL,
   facebook: {
     clientID: process.env.FACEBOOK_CLIENTID,
     clientSecret: process.env.FACEBOOK_SECRET,
@@ -53,6 +32,12 @@ module.exports = {
     clientID: process.env.GOOGLE_CLIENTID,
     clientSecret: process.env.GOOGLE_SECRET,
     callbackURL: "http://" + baseUrl + "/auth/google/callback"
+  },
+  email: {
+    noreply: {
+      name: "Shifterbelt.com",
+      email: "noreply@shifterbelt.com"
+    }
   }
 };
 

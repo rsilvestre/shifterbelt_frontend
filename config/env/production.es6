@@ -1,4 +1,4 @@
-let baseUrl = `shifterbelt.herokuapp.com`;
+let baseUrl = `www.shifterbelt.com`;
 
 /**
  * Expose

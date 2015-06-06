@@ -1,6 +1,6 @@
 "use strict";
 
-var baseUrl = "shifterbelt.herokuapp.com";
+var baseUrl = "www.shifterbelt.com";
 
 /**
  * Expose
