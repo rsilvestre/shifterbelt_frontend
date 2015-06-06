@@ -11,14 +11,14 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="{% if (isActive('/articles/new')) %}active{% endif %}">
-          <a href="/applications/new" title="new application">New</a>
-        </li>
         {% if (req.isAuthenticated()) %}
-          <li class="{% if (isActive('/articles/new')) %}active{% endif %}">
+          <li class="{% if (isActive('/applications/new')) %}active{% endif %}">
+            <a href="/applications/new" title="new application">New</a>
+          </li>
+          <li class="{% if (isActive('/applications/new')) %}active{% endif %}">
             <a href="/applications" title="applications">Applications</a>
           </li>
-          <li class="{% if (isActive('/articles/new')) %}active{% endif %}">
+          <li class="{% if (isActive('/tariffs/new')) %}active{% endif %}">
             <a href="/tariffs" title="tariffs">Tariffs</a>
           </li>
         {% endif %}
