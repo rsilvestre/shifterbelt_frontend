@@ -1,9 +1,9 @@
 {# Created by michaelsilvestre on 29/04/15. #}
 
 {% set master = '
-import ShifterbeltClient from "./shiflterbelt-client.js"end
+var ShifterbeltClient = require("shifterbelt-talker");end
 end
-let shifterbeltClient = new ShifterbeltClient({end
+var shifterbeltClient = new ShifterbeltClient({end
 tabulation:applicationId: ' + application.businessId + ',end
 tabulation:key: "' + application.keys[0]['key'] + '",end
 tabulation:password: "' + application.keys[0]['passwd'] + '"end
@@ -30,9 +30,9 @@ shifterbeltClient.on("error", function(message) {end
 tabulation:console.log(`There is an error: ${message}`);end
 });' %}
 {% set slave = '
-import ShifterbeltClient from "./shiflterbelt-client.js"end
+var ShifterbeltClient = require("shifterbelt-talker");end
 end
-let shifterbeltClient = new ShifterbeltClient({end
+var shifterbeltClient = new ShifterbeltClient({end
 tabulation:applicationId: ' + application.businessId + ',end
 tabulation:key: "' + application.keys[1]['key'] + '",end
 tabulation:password: "' + application.keys[1]['passwd'] + '"end
@@ -114,7 +114,47 @@ tabulation:console.log(`There is an error: ${message}`);end
       </pre>
     </div>
     <div class="application-install">
-      {{ "#test"|markdown }}
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>
+            install shifterbelt-talker
+          </h3>
+
+          <p>
+            You need to install Shifterbelt-talker from npm.
+          </p>
+          <pre class="text-left">
+            npm install --save shifterbelt-talker
+          </pre>
+
+          <p>
+            Create a small project in node js
+          </p>
+          <pre class="text-left">
+            mkdir master
+            cd master
+            npm init
+            npm install --save shifterbelt-talker
+            vi app.js
+          </pre>
+
+          <p class="text-primary">
+            Copy/past the code for your master in the app.js and do the same for a slave
+          </p>
+
+          <p>
+            Pay attention than :<br/>
+            <ul>
+              <li class="bg-warning">
+                You should execute the code on 2 different machines. One for the master and one for the slave.
+              </li>
+              <li class="bg-warning">
+                The code for the manager is still not implemented.
+              </li>
+            </ul>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-sm-3">
