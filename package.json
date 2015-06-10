@@ -2,7 +2,7 @@
   "name": "Shifterbelt",
   "description": "This is a front-end of the project Shifterbelt",
   "project": {
-    "url": "http://shifterbelt.herokuapp.com",
+    "url": "http://www.shifterbelt.com",
     "content": "Communication tool for devices",
     "fb": {
       "appId": "1622734144627490",
@@ -15,7 +15,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_PATH=./config:./app/controllers nodemon bin/www"
+    "start": "NODE_PATH=./config:./app/controllers nodemon bin/frontend"
   },
   "keywords": [
     "communication",
