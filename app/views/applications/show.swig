@@ -4,25 +4,28 @@
 import ShifterbeltClient from "./shiflterbelt-client.js"end
 end
 let shifterbeltClient = new ShifterbeltClient({end
-tabulation:url: "http://localhost:3000/ns",end
-tabulation:applicationId: 998494289165,end
-tabulation:key: "d9bc1414249500b884a432bda1e4cb378b1945b5",end
-tabulation:password: "M+cKkcKtMfjQc03NfwKwKKA3FzO3RwJXwFBZb9J4eIany5o8hN/3pf6JMDKH9+k/6SgklrqWf7G5yFeV"end
+tabulation:applicationId: ' + application.businessId + ',end
+tabulation:key: "' + application.keys[0]['key'] + '",end
+tabulation:password: "' + application.keys[0]['passwd'] + '"end
 });end
 end
-shifterbeltClient.on("connect", function() {end
+shifterbeltClient.on("connect", function(socket) {end
 tabulation:console.log("connected on port 3000");end
 tabulation:shifterbeltClient.emit("test", "first device message");end
+end
+tabulation:socket.on("event", function(message) {end
+tabulation:tabulation:console.log("message: " + message);end
+tabulation:});end
+end
+tabulation:socket.on("test", function(message) {end
+tabulation:tabulation:console.log("message: " + message);end
+tabulation:});end
+end
+tabulation:socket.on("disconnect", function() {end
+tabulation:tabulation:console.log("has been disconnected");end
+tabulation:});end
 });end
-shifterbeltClient.on("event", function(message) {end
-tabulation:console.log("message: " + message);end
-});end
-shifterbeltClient.on("test", function(message) {end
-tabulation:console.log("message: " + message);end
-});end
-shifterbeltClient.on("disconnect", function() {end
-tabulation:console.log("has been disconnected");end
-});end
+end
 shifterbeltClient.on("error", function(message) {end
 tabulation:console.log(`There is an error: ${message}`);end
 });' %}
@@ -30,25 +33,28 @@ tabulation:console.log(`There is an error: ${message}`);end
 import ShifterbeltClient from "./shiflterbelt-client.js"end
 end
 let shifterbeltClient = new ShifterbeltClient({end
-tabulation:url: "http://localhost:3000/ns",end
-tabulation:applicationId: 998494289165,end
-tabulation:key: process.argv.slice(2, 3)[0] || "d9bc1414249500b884a432bda1e4cb378b1945b5",end
-tabulation:password: process.argv.slice(3, 4)[0] || "M+cKkcKtMfjQc03NfwKwKKA3FzO3RwJXwFBZb9J4eIany5o8hN/3pf6JMDKH9+k/6SgklrqWf7G5yFeV"end
+tabulation:applicationId: ' + application.businessId + ',end
+tabulation:key: "' + application.keys[1]['key'] + '",end
+tabulation:password: "' + application.keys[1]['passwd'] + '"end
 });end
 end
-shifterbeltClient.on("connect", function() {end
+shifterbeltClient.on("connect", function(socket) {end
 tabulation:console.log("connected on port 3000");end
 tabulation:shifterbeltClient.emit("test", "first device message");end
+end
+tabulation:socket.on("event", function(message) {end
+tabulation:tabulation:console.log("message: " + message);end
+tabulation:});end
+end
+tabulation:socket.on("test", function(message) {end
+tabulation:tabulation:console.log("message: " + message);end
+tabulation:});end
+end
+tabulation:socket.on("disconnect", function() {end
+tabulation:tabulation:console.log("has been disconnected");end
+tabulation:});end
 });end
-shifterbeltClient.on("event", function(message) {end
-tabulation:console.log("message: " + message);end
-});end
-shifterbeltClient.on("test", function(message) {end
-tabulation:console.log("message: " + message);end
-});end
-shifterbeltClient.on("disconnect", function() {end
-tabulation:console.log("has been disconnected");end
-});end
+end
 shifterbeltClient.on("error", function(message) {end
 tabulation:console.log(`There is an error: ${message}`);end
 });' %}
@@ -106,6 +112,9 @@ tabulation:console.log(`There is an error: ${message}`);end
       <pre class="code-js js">
         {{ slave|sample }}
       </pre>
+    </div>
+    <div class="application-install">
+      {{ "#test"|markdown }}
     </div>
   </div>
   <div class="col-sm-3">
