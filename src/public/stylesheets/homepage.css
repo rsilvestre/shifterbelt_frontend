@@ -1,0 +1,27 @@
+/* @override http://localhost:3000/stylesheets/homepage.css */
+
+div#welcome-message {
+  width: 400px;
+  margin: 0 auto;
+  padding: 5px;
+  top: 100px;
+  position: relative;
+  text-align: center;
+}
+
+div.welcome-message-title {
+  padding-bottom: 64px;
+  font-size: 64px;
+}
+
+div.welcome-message-baseline {
+  font-weight: bold;
+  font-size: 24px;
+  font-style: italic;
+  padding-bottom: 128px;
+}
+
+div.welcome-message-create-account {
+  font-size: 12px;
+}
+

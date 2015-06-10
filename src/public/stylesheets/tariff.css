@@ -1,0 +1,181 @@
+/* @override http://localhost:3000/stylesheets/tariff.css */
+
+div.plan-container.clearfix {
+  width: 975px;
+}
+
+/* @group Not Free */
+
+div.plan-container-nofree.clearfix {
+  padding-left: 3px;
+  padding-right: 3px;
+  width: 780px;
+  margin: 0 auto;
+  padding-bottom: 18px;
+}
+
+.plan {
+  width: 180px;
+  text-align: center;
+  border: 1px solid silver;
+  border-radius: 6px;
+  padding: 12px 0 24px;
+  margin-right: 18px;
+  float: left;
+}
+
+.plan:last-child {
+  margin-right: 0;
+}
+
+div.plan-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+p.plan-description {
+  padding: 0 12px;
+  min-height: 65px;
+  bottom: 0;
+}
+
+div.feature-group p {
+  margin: 0;
+}
+
+div.feature-group {
+  padding-bottom: 12px;
+}
+
+div.plan-price {
+  font-weight: bold;
+  line-height: 42px;
+  background-color: #3b7ec3;
+  color: white;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+/* @end */
+
+/* @group Free */
+
+div.plan-container-free.clearfix {
+  width: 776px;
+  margin: 0 auto 012px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+div.plan-title-free {
+  float: left;
+  height: 24px;
+  padding-right: 12px;
+  font-weight: bold;
+  line-height: 24px;
+  font-size: 16px;
+  padding-left: 24px;
+  border-top-left-radius: 5px;
+  background-color: #ccc;
+  margin-right: 18px;
+}
+
+p.plan-description-free {
+  float: left;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+  height: 24px;
+  line-height: 24px;
+}
+
+div.plan-free-row.clearfix {
+  padding: 0;
+  margin: 0;
+  height: 24px;
+}
+
+div.plan-free-row:first-child {
+  border-bottom: 1px solid #bbb;
+}
+
+span.plan-free-connection, span.plan-free-message, span.plan-free-ssl {
+  line-height: 24px;
+  height: 24px;
+}
+
+span.plan-free-connection {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+span.plan-free-message{
+}
+
+span.plan-free-ssl {
+
+}
+
+div.plan-price-free {
+  float: left;
+  width: 120px;
+  text-align: center;
+  line-height: 48px;
+  background-color: #ccc;
+  border-bottom-right-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+div.plan-free-description.clearfix {
+  width:500px;
+  float: left;
+  background-color: #ddd;
+  height: 48px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-right: 1px solid #ddd;
+}
+
+div.horizontal-free {
+  float: left;
+  height: 48px;
+  width: 138px;
+  text-align: center;
+  padding-top: 6px;
+}
+
+div.feature-group-free {
+  float: left;
+  padding-right: 36px;
+}
+
+/* @end */
+
+div.payment-recap {
+  padding-bottom: 24px;
+}
+
+div.user-info {
+  padding-bottom: 18px;
+}
+
+div.payment-container.clearfix {
+  padding-left: 3px;
+  padding-right: 3px;
+  width: 780px;
+  margin: 0 auto;
+  padding-bottom: 18px;
+}
+
+div.payment-address-block {
+  padding-bottom: 18px;
+  border: 1px solid #ccc;
+  padding-top: 18px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+div.address-row {
+  padding-bottom: 12px;
+}
