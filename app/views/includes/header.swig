@@ -15,7 +15,7 @@
           <li class="{% if (isActive('/applications/new')) %}active{% endif %}">
             <a href="/applications/new" title="new application">New</a>
           </li>
-          <li class="{% if (isActive('/applications/new')) %}active{% endif %}">
+          <li class="{% if (isActive('/applications')) %}active{% endif %}">
             <a href="/applications" title="applications">Applications</a>
           </li>
           <li class="{% if (isActive('/tariffs/new')) %}active{% endif %}">
