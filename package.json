@@ -15,7 +15,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_PATH=./config:./app/controllers nodemon bin/frontend"
+    "start": "NODE_PATH=./config:./app/controllers pm2 start bin/frontend"
   },
   "keywords": [
     "communication",
